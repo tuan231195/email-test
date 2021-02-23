@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi';
-import pino, { BaseLogger, LevelWithSilent } from 'pino';
+import pino, { BaseLogger } from 'pino';
 import { IConfig } from 'config';
 import { configToken } from 'src/container';
 

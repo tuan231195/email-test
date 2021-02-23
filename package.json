@@ -78,8 +78,10 @@
 	"dependencies": {
 		"axios": "^0.21.1",
 		"config": "^3.3.3",
+		"dompurify": "^2.2.6",
 		"dotenv": "^8.2.0",
 		"ioredis": "^4.22.0",
+		"jsdom": "^16.4.0",
 		"lodash": "^4.17.21",
 		"pino": "^6.11.1",
 		"pino-pretty": "^4.5.0",

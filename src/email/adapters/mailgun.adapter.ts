@@ -3,10 +3,7 @@ import { IConfig } from 'config';
 import { Email, Recipient } from 'src/email/models/email';
 import { HttpService } from 'src/core/http/services/http.service';
 import { LoggingService } from 'src/core/logging/services/logging.service';
-import {
-	MailAdapter,
-	mailAdapterToken,
-} from 'src/email/adapters/email.adapter';
+import { MailAdapter, mailAdapterToken } from 'src/email/adapters/email.adapter';
 import { configToken } from 'src/container';
 
 @Service({

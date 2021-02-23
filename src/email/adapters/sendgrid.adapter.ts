@@ -1,7 +1,4 @@
-import {
-	MailAdapter,
-	mailAdapterToken,
-} from 'src/email/adapters/email.adapter';
+import { MailAdapter, mailAdapterToken } from 'src/email/adapters/email.adapter';
 import { Email } from 'src/email/models/email';
 import { Inject, Service } from 'typedi';
 import { IConfig } from 'config';

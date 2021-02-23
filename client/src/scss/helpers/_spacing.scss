@@ -1,0 +1,11 @@
+@each $pixel in (0 1 2 3 5 8 10 15 20 25 30 35 40 45 50 60 70 80 90 100 120 150 200 250 300) {
+	@each $side in (top right bottom left) {
+		.marg-#{$side}-#{$pixel} {
+			margin-#{$side}: #{$pixel}px;
+		}
+
+		.pad-#{$side}-#{$pixel} {
+			padding-#{$side}: #{$pixel}px;
+		}
+	}
+}
