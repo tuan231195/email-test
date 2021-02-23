@@ -3,6 +3,8 @@ import { Inject, Service } from 'typedi';
 import { LoggingService } from 'src/core/logging/services/logging.service';
 import { EmailStatusService } from 'src/email/services/email-status.service';
 import { MailAdapter } from 'src/email/adapters/email.adapter';
+import { RetryProcessor, RetryStrategy } from 'src/utils/process/retry';
+import { serviceUnavailable } from 'src/core/http/errors';
 
 @Service()
 export class EmailService {
@@ -13,24 +15,39 @@ export class EmailService {
 
 	async sendEmail(email: Email) {
 		let primaryService: MailAdapter | null = null;
-		try {
-			primaryService = await this.emailStatusService.getPrimaryMailAdapter();
-			await this.sendEmailWithService(email, primaryService);
-		} catch (e) {
-			if (primaryService) {
-				const alternativeService = await this.emailStatusService.getAlternativeAdapter(
-					primaryService.serviceName
-				);
-				if (alternativeService) {
-					await this.sendEmailWithService(email, alternativeService);
-					await this.checkServiceDownTime(
-						primaryService,
-						alternativeService
+		const retryProcessor = new RetryProcessor({
+			maxRetries: 3,
+			retryDelay: 2000,
+			retryStrategy: RetryStrategy.EXPONENTIAL,
+			retryOn: serviceUnavailable,
+		});
+		const { error } = await retryProcessor.run(async () => {
+			try {
+				primaryService = await this.emailStatusService.getPrimaryMailAdapter();
+				await this.sendEmailWithService(email, primaryService);
+			} catch (e) {
+				if (primaryService) {
+					const alternativeService = await this.emailStatusService.getAlternativeAdapter(
+						primaryService.serviceName
 					);
+					if (alternativeService) {
+						await this.sendEmailWithService(
+							email,
+							alternativeService
+						);
+						await this.checkServiceDownTime(
+							primaryService,
+							alternativeService
+						);
+					}
+				} else {
+					this.loggingService.error(`Failed to send email`, e);
+					throw e;
 				}
-			} else {
-				this.loggingService.error(`Failed to send email`, e);
 			}
+		});
+		if (error) {
+			throw error;
 		}
 	}
 
@@ -38,20 +55,25 @@ export class EmailService {
 		primaryService: MailAdapter,
 		alternativeService: MailAdapter
 	) {
-		const [
-			primaryServiceDownTime = 0,
-			alternativeServiceDownTime = 0,
-		] = await this.emailStatusService.getServicesDownTime([
-			primaryService.serviceName,
-			alternativeService.serviceName,
-		]);
-		if (
-			primaryServiceDownTime > 5 &&
-			primaryServiceDownTime > alternativeServiceDownTime
-		) {
-			await this.emailStatusService.updatePrimaryService(
-				alternativeService.serviceName
-			);
+		try {
+			const [
+				primaryServiceDownTime = 0,
+				alternativeServiceDownTime = 0,
+			] = await this.emailStatusService.getServicesDownTime([
+				primaryService.serviceName,
+				alternativeService.serviceName,
+			]);
+			// update the primary service if needed
+			if (
+				primaryServiceDownTime > 5 &&
+				primaryServiceDownTime > alternativeServiceDownTime
+			) {
+				await this.emailStatusService.updatePrimaryService(
+					alternativeService.serviceName
+				);
+			}
+		} catch (e) {
+			this.loggingService.error(`Failed to update the primary service`, e);
 		}
 	}
 

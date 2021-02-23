@@ -13,7 +13,12 @@ export class RetryProcessor {
 		retryStrategy = RetryStrategy.FIXED,
 		retryDelay = 500,
 		retryOn = alwaysRetry,
-	} = {}) {
+	}: {
+		maxRetries: number;
+		retryStrategy: Function;
+		retryDelay: number;
+		retryOn: (error: Error) => boolean;
+	}) {
 		this.retryDelay = retryDelay;
 		this.retryStrategy = retryStrategy;
 		this.maxRetries = maxRetries;
@@ -21,6 +26,7 @@ export class RetryProcessor {
 	}
 
 	async run(processor) {
+		let retryDelay = this.retryDelay;
 		for (let i = 1; i <= this.maxRetries; i++) {
 			try {
 				const result = await processor();
@@ -29,14 +35,14 @@ export class RetryProcessor {
 					result: result,
 				};
 			} catch (e) {
-				this.retryDelay = this.retryStrategy(this.retryDelay, i);
+				retryDelay = this.retryStrategy(retryDelay, i);
 				if (i === this.maxRetries || !this.retryOn(e)) {
 					return {
 						success: false,
 						error: e,
 					};
 				} else {
-					await sleep(this.retryDelay);
+					await sleep(retryDelay);
 				}
 			}
 		}
