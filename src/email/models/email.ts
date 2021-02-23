@@ -16,6 +16,9 @@ export class Recipient {
 
 @schema()
 export class Email {
+	@nested()
+	from: Recipient;
+
 	@nestedArray(
 		() => Recipient,
 		an.array().min(1, 'Email recipient is required')

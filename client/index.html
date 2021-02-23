@@ -10,13 +10,40 @@
 				<div class="fourteen wide column">
 					<h3 class="ui header">Email generator</h3>
 					<form class="ui form marg-top-30" novalidate>
+						<div class="two fields">
+							<div class="field" data-position="right center">
+								<input
+									type="text"
+									id="sender-name"
+									name="sender-name"
+									required
+									placeholder="Name"
+								/>
+							</div>
+							<div class="field" data-position="right center">
+								<input
+									type="email"
+									id="sender-email"
+									name="sender-email"
+									required
+									placeholder="Email"
+								/>
+							</div>
+						</div>
 						<div class="field">
-							<input type="text" id="subject" name="subject" placeholder="Subject" />
+							<input
+								type="text"
+								id="subject"
+								name="subject"
+								placeholder="Subject"
+							/>
 						</div>
 						<div class="field">
 							<div id="recipient-list">
 								<div data-element-name="recipient" class="flex">
-									<div class="marg-top-1 marg-right-10 flex-align-self-baseline">
+									<div
+										class="marg-top-1 marg-right-10 flex-align-self-baseline"
+									>
 										<button
 											disabled
 											data-element-name="remove-button"
@@ -26,7 +53,10 @@
 										</button>
 									</div>
 									<div class="three fields flex-grow">
-										<div class="field" data-position="right center">
+										<div
+											class="field"
+											data-position="right center"
+										>
 											<input
 												type="text"
 												data-element-name="recipient-name"
@@ -35,7 +65,10 @@
 												placeholder="Name"
 											/>
 										</div>
-										<div class="field" data-position="right center">
+										<div
+											class="field"
+											data-position="right center"
+										>
 											<input
 												type="email"
 												data-element-name="recipient-email"
@@ -54,14 +87,23 @@
 									</div>
 								</div>
 							</div>
-							<button class="ui button primary" id="add-new-recipient" type="button">
+							<button
+								class="ui button primary"
+								id="add-new-recipient"
+								type="button"
+							>
 								Add new
 							</button>
 						</div>
 						<div class="field">
 							<textarea id="body" name="body"></textarea>
 						</div>
-						<button type="button" class="ui button primary" disabled id="submitBtn">
+						<button
+							type="button"
+							class="ui button primary"
+							disabled
+							id="submitBtn"
+						>
 							Send email
 						</button>
 					</form>

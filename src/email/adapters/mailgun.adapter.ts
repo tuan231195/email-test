@@ -17,7 +17,6 @@ export class MailgunAdapter implements MailAdapter {
 	private readonly mailUrl: string;
 	private readonly apiToken: string;
 	private readonly domain: string;
-	private readonly from: { name: string; email: string };
 
 	constructor(
 		@Inject(configToken) config: IConfig,
@@ -27,19 +26,15 @@ export class MailgunAdapter implements MailAdapter {
 		this.domain = config.get('email.mailgun.domain');
 		this.apiToken = config.get('email.mailgun.apiToken');
 		this.mailUrl = `https://api.mailgun.net/v3/${this.domain}/messages`;
-		this.from = {
-			name: 'Email test',
-			email: 'support@mg.vdtn359.com.au',
-		};
 	}
 
-	async sendEmail({ to, bcc = [], cc = [], body, subject }: Email) {
+	async sendEmail({ from, to, bcc = [], cc = [], body, subject }: Email) {
 		this.loggingService.debug('Sending email using mailgun');
 
 		await this.httpService.instance().postForm(
 			this.mailUrl,
 			{
-				from: toRecipient(this.from),
+				from: toRecipient(from),
 				to: to.map(toRecipient).join(','),
 				bcc: bcc.length ? bcc.map(toRecipient).join(',') : undefined,
 				cc: cc.length ? cc.map(toRecipient).join(',') : undefined,
