@@ -13,6 +13,8 @@ module.exports = {
 			apiToken: process.env.SENDGRID_API_KEY,
 		},
 		errorThreshold: 5,
+		queueUrl:
+			'https://sqs.ap-southeast-2.amazonaws.com/923678104243/email-queue.fifo',
 	},
 	db: {
 		redis: {

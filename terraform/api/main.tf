@@ -34,6 +34,7 @@ module "lambda" {
 	handler = "handlers/email-sender.handler"
 	source_path = "${path.root}/../dist"
 	runtime = "nodejs12.x"
+	timeout = 120
 	policy = {
 		json = <<EOF
 {
@@ -43,7 +44,16 @@ module "lambda" {
         "Action": [
             "secretsmanager:*"
         ],
-        "Resource": "*",
+        "Resource": "arn:aws:secretsmanager:ap-southeast-2:923678104243:secret:secrets-production-TjrQV5",
+        "Effect": "Allow"
+    },
+	{
+        "Action": [
+            "sqs:*"
+        ],
+        "Resource": [
+			"${var.email_queue_arn}"
+		],
         "Effect": "Allow"
     }
   ]
