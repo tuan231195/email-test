@@ -3,8 +3,8 @@ import { Inject, Service } from 'typedi';
 import AWS, { SQS } from 'aws-sdk';
 import { chunk } from 'lodash';
 import { LoggingService } from 'src/core/logging/services/logging.service';
-import { configToken } from 'src/container';
 import { IConfig } from 'config';
+import { configToken } from 'src/tokens';
 
 @Service()
 export class SqsService {

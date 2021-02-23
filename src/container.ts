@@ -1,16 +1,14 @@
 import 'reflect-metadata';
 import path from 'path';
+import Container, { ContainerInstance } from 'typedi';
+import { resolveAsyncConfigs } from 'config/async';
+import { configToken } from 'src/tokens';
 
 process.env.NODE_CONFIG_DIR = path.resolve(__dirname, 'config');
 
-import Container, { ContainerInstance, Token } from 'typedi';
-import { resolveAsyncConfigs } from 'config/async';
-import { IConfig } from 'config';
 const config = require('config');
 
 let containerPromise: Promise<ContainerInstance>;
-
-export const configToken = new Token<IConfig>('config');
 
 export async function initContainer() {
 	if (containerPromise) {

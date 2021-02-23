@@ -1,7 +1,8 @@
-import { configToken, initContainer } from 'src/container';
+import { initContainer } from 'src/container';
 import { EmailService } from 'src/email/services/email.service';
 import { SQSEvent } from 'aws-lambda';
 import { SqsService } from 'src/aws/sqs';
+import { configToken } from 'src/tokens';
 
 export async function handler(event: SQSEvent) {
 	const container = await initContainer();

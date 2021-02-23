@@ -1,10 +1,11 @@
 import { Consumer } from 'sqs-consumer';
 import { SQS } from 'aws-sdk';
 import { Inject, Service } from 'typedi';
-import { configToken, initContainer } from 'src/container';
+import { initContainer } from 'src/container';
 import { IConfig } from 'config';
 import { LoggingService } from 'src/core/logging/services/logging.service';
 import { handler as workerHandler } from 'src/handlers/email-worker';
+import { configToken } from 'src/tokens';
 
 async function start() {
 	const container = await initContainer();

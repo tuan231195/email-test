@@ -7,7 +7,7 @@ import {
 	MailAdapter,
 	mailAdapterToken,
 } from 'src/email/adapters/email.adapter';
-import { configToken } from 'src/container';
+import { configToken } from 'src/tokens';
 
 @Service({
 	id: mailAdapterToken,

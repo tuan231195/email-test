@@ -1,11 +1,11 @@
 import { Inject, Service } from 'typedi';
 import pino, { BaseLogger } from 'pino';
 import { IConfig } from 'config';
-import { configToken } from 'src/container';
+import { configToken } from 'src/tokens';
 
 @Service()
 export class LoggingService {
-	private logger: BaseLogger;
+	private readonly logger: BaseLogger;
 
 	constructor(@Inject(configToken) private readonly config: IConfig) {
 		this.logger = pino({

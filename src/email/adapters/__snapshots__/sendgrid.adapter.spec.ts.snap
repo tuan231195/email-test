@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing mailgun adapter Should call http client post with the right data 1`] = `
+Array [
+  Array [
+    "https://api.sendgrid.com/v3/mail/send",
+    Object {
+      "content": Array [
+        Object {
+          "type": "text/html",
+          "value": "Test body",
+        },
+      ],
+      "from": Object {
+        "email": "vdtn359@gmail.com",
+        "name": "Tuan Nguyen",
+      },
+      "personalizations": Array [
+        Object {
+          "bcc": Array [
+            Object {
+              "email": "vdtn359@gmail.com",
+              "name": "Nguyen",
+            },
+          ],
+          "cc": Array [
+            Object {
+              "email": "vdtn359@uowmail.edu.au",
+              "name": "TN",
+            },
+          ],
+          "to": Array [
+            Object {
+              "email": "vdtn359@uowmail.edu.au",
+              "name": "Tuan",
+            },
+          ],
+        },
+      ],
+      "subject": "Test subject",
+    },
+    Object {
+      "headers": Object {
+        "Authorization": "Bearer token",
+      },
+    },
+  ],
+]
+`;

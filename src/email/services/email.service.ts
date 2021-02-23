@@ -5,15 +5,15 @@ import { EmailStatusService } from 'src/email/services/email-status.service';
 import { MailAdapter } from 'src/email/adapters/email.adapter';
 import { RetryProcessor, RetryStrategy } from 'src/utils/process/retry';
 import { serviceUnavailable } from 'src/core/http/errors';
-import { configToken } from 'src/container';
 import { IConfig } from 'config';
+import { configToken } from 'src/tokens';
 
 @Service()
 export class EmailService {
 	constructor(
 		@Inject() private readonly loggingService: LoggingService,
 		@Inject() private readonly emailStatusService: EmailStatusService,
-		@Inject(configToken) private readonly config: IConfig,
+		@Inject(configToken) private readonly config: IConfig
 	) {}
 
 	async sendEmail(email: Email) {
@@ -77,7 +77,10 @@ export class EmailService {
 				);
 			}
 		} catch (e) {
-			this.loggingService.error(`Failed to update the primary service`, e);
+			this.loggingService.error(
+				`Failed to update the primary service`,
+				e
+			);
 		}
 	}
 

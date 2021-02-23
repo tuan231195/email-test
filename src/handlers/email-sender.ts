@@ -1,10 +1,11 @@
-import { configToken, initContainer } from 'src/container';
+import { initContainer } from 'src/container';
 import { error, ok } from 'src/core/http/utils/response';
 import { Email } from 'src/email/models/email';
 import { validate } from 'yup-decorator';
 import { sanitizeHtml } from 'src/utils/html/sanitize';
 import { CustomValidationError } from 'src/core/errors/custom-validation-error';
 import { SqsService } from 'src/aws/sqs';
+import { configToken } from 'src/tokens';
 
 export async function handler(event) {
 	try {

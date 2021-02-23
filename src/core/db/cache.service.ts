@@ -2,7 +2,7 @@ import IORedis from 'ioredis';
 import { Inject, Service } from 'typedi';
 import { wrap } from 'src/utils/proxy';
 import { IConfig } from 'config';
-import { configToken } from 'src/container';
+import { configToken } from 'src/tokens';
 
 @Service()
 export class CacheService {

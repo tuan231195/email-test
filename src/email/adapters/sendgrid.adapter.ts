@@ -7,7 +7,7 @@ import { Inject, Service } from 'typedi';
 import { IConfig } from 'config';
 import { HttpService } from 'src/core/http/services/http.service';
 import { LoggingService } from 'src/core/logging/services/logging.service';
-import { configToken } from 'src/container';
+import { configToken } from 'src/tokens';
 
 @Service({
 	id: mailAdapterToken,

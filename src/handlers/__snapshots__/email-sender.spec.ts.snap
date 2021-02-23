@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing email.handler Test input validation should return an error when recipient email is incorrect 1`] = `
+Object {
+  "body": "{\\"errors\\":[{\\"field\\":\\"to[0].email\\",\\"message\\":\\"Not a valid email\\"}]}",
+  "headers": Object {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`Testing email.handler Test input validation should return an error when recipient name is missing 1`] = `
+Object {
+  "body": "{\\"errors\\":[{\\"field\\":\\"to[0].name\\",\\"message\\":\\"Recipient name is required\\"}]}",
+  "headers": Object {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`Testing email.handler Test input validation should return an error when sender email is incorrect 1`] = `
+Object {
+  "body": "{\\"errors\\":[{\\"field\\":\\"from.email\\",\\"message\\":\\"Not a valid email\\"}]}",
+  "headers": Object {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`Testing email.handler Test input validation should return an error when the there is no recipients 1`] = `
+Object {
+  "body": "{\\"errors\\":[{\\"field\\":\\"to\\",\\"message\\":\\"Email recipient is required\\"}]}",
+  "headers": Object {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`Testing email.handler Test input validation should return an error when the there is no sender details 1`] = `
+Object {
+  "body": "{\\"errors\\":[{\\"field\\":\\"from.name\\",\\"message\\":\\"Recipient name is required\\"},{\\"field\\":\\"from.email\\",\\"message\\":\\"Recipient email is required\\"}]}",
+  "headers": Object {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`Testing email.handler Test input validation should sanitize body 1`] = `
+Object {
+  "body": "{\\"message\\":\\"Email sent successfully\\"}",
+  "headers": Object {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`Testing email.handler Test input validation should sanitize body 2`] = `
+Array [
+  Array [
+    Object {
+      "message": Object {
+        "bcc": Array [
+          Object {
+            "email": "vdtn359@gmail.com",
+            "name": "Nguyen",
+          },
+        ],
+        "body": "Test",
+        "cc": Array [
+          Object {
+            "email": "vdtn359@uowmail.edu.au",
+            "name": "TN",
+          },
+        ],
+        "from": Object {
+          "email": "vdtn359@gmail.com",
+          "name": "Tuan Nguyen",
+        },
+        "subject": "Test subject",
+        "to": Array [
+          Object {
+            "email": "vdtn359@uowmail.edu.au",
+            "name": "Tuan",
+          },
+        ],
+      },
+      "queueUrl": undefined,
+    },
+  ],
+]
+`;

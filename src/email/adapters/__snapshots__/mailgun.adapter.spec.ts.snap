@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing mailgun adapter Should call http client post with the right data 1`] = `
+Array [
+  Array [
+    "https://api.mailgun.net/v3/test/messages",
+    Object {
+      "bcc": "Nguyen <vdtn359@gmail.com>",
+      "cc": "TN <vdtn359@uowmail.edu.au>",
+      "from": "Tuan Nguyen <vdtn359@gmail.com>",
+      "html": "Test body",
+      "subject": "Test subject",
+      "to": "Tuan <vdtn359@uowmail.edu.au>",
+    },
+    Object {
+      "auth": Object {
+        "password": "token",
+        "username": "api",
+      },
+    },
+  ],
+]
+`;
