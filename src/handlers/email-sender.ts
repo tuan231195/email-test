@@ -13,7 +13,10 @@ export async function handler(event) {
 		const sqsService = container.get(SqsService);
 		const config = container.get(configToken);
 
-		await sqsService.sendMessage(config.get('email.queueUrl'), email);
+		await sqsService.sendMessage({
+			queueUrl: config.get('email.queueUrl'),
+			message: email,
+		});
 
 		return ok({ message: 'Email sent successfully' });
 	} catch (e) {

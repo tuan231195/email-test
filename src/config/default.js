@@ -4,6 +4,9 @@ module.exports = {
 	logging: {
 		logLevel: 'debug',
 	},
+	aws: {
+		region: 'ap-southeast-2',
+	},
 	email: {
 		mailgun: {
 			apiToken: process.env.MAILGUN_API_KEY,
@@ -14,7 +17,7 @@ module.exports = {
 		},
 		errorThreshold: 5,
 		queueUrl:
-			'https://sqs.ap-southeast-2.amazonaws.com/923678104243/email-queue.fifo',
+			'https://sqs.ap-southeast-2.amazonaws.com/923678104243/test-email-queue',
 	},
 	db: {
 		redis: {

@@ -3,18 +3,30 @@ import { Inject, Service } from 'typedi';
 import AWS, { SQS } from 'aws-sdk';
 import { chunk } from 'lodash';
 import { LoggingService } from 'src/core/logging/services/logging.service';
-import { v4 } from 'uuid';
+import { configToken } from 'src/container';
+import { IConfig } from 'config';
 
 @Service()
 export class SqsService {
 	private sqs: SQS;
-	constructor(@Inject() private readonly loggingService: LoggingService) {
+	constructor(
+		@Inject() private readonly loggingService: LoggingService,
+		@Inject(configToken) private readonly config: IConfig
+	) {
 		this.sqs = new AWS.SQS({
-			region: 'ap-southeast-2',
+			region: config.get('aws.region'),
 		});
 	}
 
-	async sendMessage(queueUrl: string, message: any, messageGroupId = v4()) {
+	async sendMessage({
+		queueUrl,
+		message,
+		messageGroupId = undefined,
+	}: {
+		queueUrl: string;
+		message: any;
+		messageGroupId?: string;
+	}) {
 		await this.sqs
 			.sendMessage({
 				QueueUrl: queueUrl,
@@ -24,16 +36,20 @@ export class SqsService {
 			.promise();
 	}
 
-	async processMessages(
-		queueUrl: string,
-		messages: SQSRecord[],
-		handler: (message: SQSRecord) => any
-	) {
+	async processMessages({
+		queueUrl,
+		messages,
+		handler,
+	}: {
+		queueUrl: string;
+		messages: SQSRecord[];
+		handler: (message: SQSRecord) => any;
+	}) {
 		// we are fine with processing multiple message groups in parallel. However, messages in the same group must be processed sequentially
 		const processedResults = await Promise.all(
 			messages.map(
 				async message =>
-					await this.processSingleMessage(message, handler)
+					await this.processSingleMessage({ message, handler })
 			)
 		);
 
@@ -50,17 +66,20 @@ export class SqsService {
 		const failedMessageIds = processedResults
 			.filter(result => !result.success)
 			.map(result => result.message.messageId);
-		await this.deleteMessages(queueUrl, successMessages);
+		await this.deleteMessages({ queueUrl, messages: successMessages });
 		this.loggingService.error(
 			'The following message failed in this batch ' + failedMessageIds
 		);
 		throw new Error('Message Batch not processed successfully');
 	}
 
-	async processSingleMessage(
-		message: SQSRecord,
-		handler: (message: SQSRecord) => any
-	) {
+	async processSingleMessage({
+		message,
+		handler,
+	}: {
+		message: SQSRecord;
+		handler: (message: SQSRecord) => any;
+	}) {
 		try {
 			const result = await handler(message);
 			return { success: true, result, message };
@@ -69,7 +88,13 @@ export class SqsService {
 		}
 	}
 
-	async deleteMessages(queueUrl: string, messages: SQSRecord[]) {
+	async deleteMessages({
+		queueUrl,
+		messages,
+	}: {
+		queueUrl: string;
+		messages: SQSRecord[];
+	}) {
 		if (!messages.length) {
 			return;
 		}

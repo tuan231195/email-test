@@ -13,6 +13,8 @@ module.exports = {
 		sendgrid: {
 			apiToken: asyncConfig(environment, 'email.sendgrid.apiToken'),
 		},
+		queueUrl:
+			'https://sqs.ap-southeast-2.amazonaws.com/923678104243/email-queue.fifo',
 	},
 	db: {
 		redis: {

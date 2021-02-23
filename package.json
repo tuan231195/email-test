@@ -13,7 +13,8 @@
 	"scripts": {
 		"dev": "run-p -l dev:*",
 		"dev:client": "cd client && npm start",
-		"dev:server": "nodemon",
+		"dev:server": "nodemon src/mocks/local-server.ts",
+		"dev:worker": "nodemon src/mocks/local-worker.ts",
 		"build": "rm -rf dist && ttsc",
 		"prepackage": "npm run build",
 		"package": "cpyspec",
@@ -48,6 +49,7 @@
 		"nodemon": "^2.0.7",
 		"npm-run-all": "4.1.5",
 		"prettier": "1.19.1",
+		"sqs-consumer": "^5.5.0",
 		"ts-jest": "25.2.1",
 		"ts-node": "^9.1.1",
 		"tsconfig-paths": "^3.9.0",

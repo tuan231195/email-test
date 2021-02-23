@@ -10,7 +10,9 @@ export async function handler(event: SQSEvent) {
 	const config = container.get(configToken);
 	const queueUrl: string = config.get('email.queueUrl');
 
-	await sqsService.processMessages(queueUrl, event.Records, message => {
-		return emailService.sendEmail(JSON.parse(message.body));
+	await sqsService.processMessages({
+		queueUrl,
+		messages: event.Records,
+		handler: message => emailService.sendEmail(JSON.parse(message.body)),
 	});
 }

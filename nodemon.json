@@ -1,5 +1,7 @@
 {
 	"watch": ["src"],
-	"exec": "nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/mocks/local-server.ts",
+	"execMap": {
+		"ts": "ts-node -r tsconfig-paths/register"
+	},
 	"delay": 700
 }
