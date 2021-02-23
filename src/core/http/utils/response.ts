@@ -1,7 +1,9 @@
 import { INTERNAL_ERROR, OK } from 'src/core/http/errors/status-code';
 import { CustomError } from 'src/core/errors/custom-error';
+import { initContainer } from 'src/container';
+import { LoggingService } from 'src/core/logging/services/logging.service';
 
-export function error(e: string | Error) {
+export async function error(e: string | Error) {
 	function failWithError({
 		status,
 		message,
@@ -37,10 +39,16 @@ export function error(e: string | Error) {
 			message: e.serializeErrors(),
 		});
 	}
-
+	const status = (e as any).status || INTERNAL_ERROR;
+	const isInternalServerError = status === INTERNAL_ERROR;
+	if (isInternalServerError) {
+		const container = await initContainer();
+		const loggingService = container.get(LoggingService);
+		loggingService.error('Internal server error', e);
+	}
 	return failWithError({
-		status: (e as any).status || INTERNAL_ERROR,
-		message: e.message,
+		status,
+		message: isInternalServerError ? 'Internal server error' : e.message,
 	});
 }
 

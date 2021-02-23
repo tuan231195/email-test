@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { handler } from 'src/handlers/email-sender.handler';
+import { handler } from 'src/handlers/email-sender';
 import { initContainer } from 'src/container';
 import { LoggingService } from 'src/core/logging/services/logging.service';
 import cors from 'cors';

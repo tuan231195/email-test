@@ -21,6 +21,7 @@ export async function initContainer() {
 			const container = Container.of();
 			await resolveAsyncConfigs(config);
 			container.set(configToken, config);
+			console.log(config.get('email'));
 			resolve(container);
 		} catch (e) {
 			reject(e);

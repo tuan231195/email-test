@@ -5,12 +5,15 @@ import { EmailStatusService } from 'src/email/services/email-status.service';
 import { MailAdapter } from 'src/email/adapters/email.adapter';
 import { RetryProcessor, RetryStrategy } from 'src/utils/process/retry';
 import { serviceUnavailable } from 'src/core/http/errors';
+import { configToken } from 'src/container';
+import { IConfig } from 'config';
 
 @Service()
 export class EmailService {
 	constructor(
 		@Inject() private readonly loggingService: LoggingService,
-		@Inject() private readonly emailStatusService: EmailStatusService
+		@Inject() private readonly emailStatusService: EmailStatusService,
+		@Inject(configToken) private readonly config: IConfig,
 	) {}
 
 	async sendEmail(email: Email) {
@@ -65,7 +68,8 @@ export class EmailService {
 			]);
 			// update the primary service if needed
 			if (
-				primaryServiceDownTime > 5 &&
+				primaryServiceDownTime >
+					Number(this.config.get('email.errorThreshold')) &&
 				primaryServiceDownTime > alternativeServiceDownTime
 			) {
 				await this.emailStatusService.updatePrimaryService(

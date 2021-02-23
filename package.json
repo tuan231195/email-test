@@ -14,7 +14,9 @@
 		"dev": "run-p -l dev:*",
 		"dev:client": "cd client && npm start",
 		"dev:server": "nodemon",
-		"build": "ttsc",
+		"build": "rm -rf dist && ttsc",
+		"prepackage": "npm run build",
+		"package": "cpyspec",
 		"commit": "git-cz",
 		"prepare": "npm run build",
 		"test": "jest",
@@ -70,8 +72,10 @@
 	},
 	"dependencies": {
 		"aws-lambda": "^1.0.6",
+		"aws-sdk": "^2.849.0",
 		"axios": "^0.21.1",
 		"config": "^3.3.3",
+		"cpyspec": "^1.0.3",
 		"dompurify": "^2.2.6",
 		"dotenv": "^8.2.0",
 		"ioredis": "^4.22.0",
@@ -83,5 +87,19 @@
 		"typedi": "^0.10.0",
 		"yup": "^0.32.9",
 		"yup-decorator": "^2.2.0"
+	},
+	"copySpec": {
+		"verbose": false,
+		"progress": false,
+		"files": [
+			{
+				"from": "package.json",
+				"to": "dist/package.json"
+			},
+			{
+				"from": "package-lock.json",
+				"to": "dist/package-lock.json"
+			}
+		]
 	}
 }
