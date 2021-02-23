@@ -1,4 +1,7 @@
-import { MailAdapter, mailAdapterToken } from 'src/email/adapters/email.adapter';
+import {
+	MailAdapter,
+	mailAdapterToken,
+} from 'src/email/adapters/email.adapter';
 import { Email } from 'src/email/models/email';
 import { Inject, Service } from 'typedi';
 import { IConfig } from 'config';
@@ -13,6 +16,7 @@ import { configToken } from 'src/container';
 export class SendGridAdapter implements MailAdapter {
 	private readonly mailUrl: string;
 	private readonly apiToken: string;
+	private from: { name: string; email: string };
 
 	constructor(
 		@Inject(configToken) config: IConfig,
@@ -21,16 +25,13 @@ export class SendGridAdapter implements MailAdapter {
 	) {
 		this.mailUrl = 'https://api.sendgrid.com/v3/mail/send';
 		this.apiToken = config.get('email.sendgrid.apiToken');
+		this.from = {
+			name: 'Email test',
+			email: 'support@sg.vdtn359.com.au',
+		};
 	}
 
-	async sendEmail({
-		from,
-		to = [],
-		bcc = [],
-		cc = [],
-		body,
-		subject,
-	}: Email) {
+	async sendEmail({ to = [], bcc = [], cc = [], body, subject }: Email) {
 		this.loggingService.debug('Sending email using sendgrid');
 		await this.httpService.instance().post(
 			this.mailUrl,
@@ -42,7 +43,7 @@ export class SendGridAdapter implements MailAdapter {
 						cc: cc.length ? cc : undefined,
 					},
 				],
-				from: { email: from.email, name: from.name },
+				from: { email: this.from.email, name: this.from.name },
 				subject: subject,
 				content: [{ type: 'text/html', value: body }],
 			},

@@ -11,7 +11,9 @@
 		"url": "git@github.com:tuan231195/email-test.git"
 	},
 	"scripts": {
-		"semantic-release": "semantic-release",
+		"dev": "run-p -l dev:*",
+		"dev:client": "cd client && npm start",
+		"dev:server": "nodemon",
 		"build": "ttsc",
 		"commit": "git-cz",
 		"prepare": "npm run build",
@@ -24,31 +26,28 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
-		"@commitlint/cli": "8.3.5",
-		"@commitlint/config-conventional": "8.3.4",
-		"@semantic-release/changelog": "5.0.0",
-		"@semantic-release/commit-analyzer": "8.0.1",
-		"@semantic-release/git": "9.0.0",
-		"@semantic-release/npm": "7.0.3",
-		"@semantic-release/release-notes-generator": "9.0.1",
+		"@types/aws-lambda": "^8.10.72",
 		"@types/config": "0.0.38",
+		"@types/express": "^4.17.11",
 		"@types/ioredis": "^4.19.4",
 		"@types/jest": "25.1.4",
 		"@types/pino": "^6.3.6",
 		"@typescript-eslint/eslint-plugin": "2.22.0",
 		"@typescript-eslint/parser": "2.22.0",
-		"commitizen": "4.0.3",
-		"cz-conventional-changelog": "3.1.0",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
 		"eslint": "6.8.0",
 		"eslint-config-prettier": "6.10.0",
 		"eslint-plugin-prettier": "3.1.2",
+		"express": "^4.17.1",
 		"husky": "4.2.3",
 		"jest": "25.1.0",
 		"lint-staged": "10.0.8",
+		"nodemon": "^2.0.7",
 		"npm-run-all": "4.1.5",
 		"prettier": "1.19.1",
-		"semantic-release": "17.0.4",
 		"ts-jest": "25.2.1",
+		"ts-node": "^9.1.1",
 		"tsconfig-paths": "^3.9.0",
 		"ttypescript": "1.5.10",
 		"typescript": "3.8.3",
@@ -56,7 +55,6 @@
 	},
 	"husky": {
 		"hooks": {
-			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
 			"pre-commit": "lint-staged",
 			"pre-push": "npm run validate"
 		}
@@ -70,12 +68,8 @@
 			"prettier --write"
 		]
 	},
-	"config": {
-		"commitizen": {
-			"path": "./node_modules/cz-conventional-changelog"
-		}
-	},
 	"dependencies": {
+		"aws-lambda": "^1.0.6",
 		"axios": "^0.21.1",
 		"config": "^3.3.3",
 		"dompurify": "^2.2.6",

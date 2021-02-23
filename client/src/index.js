@@ -56,8 +56,6 @@ $(function() {
 
 	const submitBtn = $('#submitBtn');
 	submitBtn.click(() => {
-		const senderName = $('#sender-name').val();
-		const senderEmail = $('#sender-email').val();
 		const subject = $('#subject').val();
 		const body = tinyMCE.get('body').getContent({ format: 'html' });
 		const recipients = {
@@ -91,10 +89,6 @@ $(function() {
 			body: JSON.stringify({
 				body,
 				subject,
-				from: {
-					name: senderName,
-					email: senderEmail,
-				},
 				...recipients,
 			}),
 		})
