@@ -38,6 +38,7 @@ EOF
 		package_file = "${path.root}/../dist/package.json"
 		compatible_runtimes = ["nodejs12.x"]
 	}
+	timeout = 180
 }
 
 resource "aws_lambda_event_source_mapping" "event_source_mapping" {

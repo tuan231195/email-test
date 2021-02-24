@@ -45,7 +45,6 @@ export class SqsService {
 		messages: SQSRecord[];
 		handler: (message: SQSRecord) => any;
 	}) {
-		// we are fine with processing multiple message groups in parallel. However, messages in the same group must be processed sequentially
 		const processedResults = await Promise.all(
 			messages.map(
 				async message =>
