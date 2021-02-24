@@ -11,3 +11,7 @@ module "worker" {
 	source = "./worker"
 	email_queue_arn = aws_sqs_queue.email_queue.arn
 }
+
+module "client" {
+	source = "./client"
+}
