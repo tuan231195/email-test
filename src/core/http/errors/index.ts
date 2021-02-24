@@ -1,4 +1,8 @@
-import { BAD_GATEWAY, GATEWAY_TIMEOUT, SERVICE_UNAVAILABLE } from 'src/core/http/errors/status-code';
+import {
+	BAD_GATEWAY,
+	GATEWAY_TIMEOUT,
+	SERVICE_UNAVAILABLE,
+} from 'src/core/http/errors/status-code';
 
 export function serviceUnavailable(e) {
 	return (

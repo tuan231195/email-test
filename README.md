@@ -47,7 +47,7 @@ Params
 ``` 
 | Name          | Type                                      | Description                   |Required|
 |to             | array[{ email: string; name: string }]    | TO recipients                 |yes|
-|from           | { email: string; name: string }           | sender                        |required|
+|from           | { email: string; name: string }           | sender                        |yes|
 |cc             | array[{ email: string; name: string }]    | CC recipients                 |no|
 |bcc            | array[{ email: string; name: string }]    | BCC recipients                |no|
 |subject        | string                                    | email subject                 |yes|

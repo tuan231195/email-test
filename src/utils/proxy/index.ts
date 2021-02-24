@@ -14,7 +14,7 @@ export function wrap<W extends object, B>(wrapper: W, base: B): W & B {
 export function getProperty(object, property, proxy) {
 	if (typeof object[property] === 'function' && !object[property].proxy) {
 		const oldFunction = object[property];
-		object[property] = function (...args) {
+		object[property] = function(...args) {
 			const value = oldFunction.apply(object, args);
 			return value === object ? proxy : value;
 		};

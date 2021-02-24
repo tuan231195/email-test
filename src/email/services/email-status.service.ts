@@ -1,6 +1,9 @@
 import { Inject, InjectMany, Service } from 'typedi';
 import { CacheService } from 'src/core/db/cache.service';
-import { MailAdapter, mailAdapterToken } from 'src/email/adapters/email.adapter';
+import {
+	MailAdapter,
+	mailAdapterToken,
+} from 'src/email/adapters/email.adapter';
 import { keyBy } from 'lodash';
 import '../adapters/mailgun.adapter';
 import '../adapters/sendgrid.adapter';
